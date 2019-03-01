@@ -22,6 +22,7 @@ val sizeFactor : Float = 2.8f
 val foreColor : Int = Color.parseColor("#4CAF50")
 val fillColor : Int = Color.parseColor("#212121")
 val delay : Long = 20
+val strokeFactor : Int = 90
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -36,6 +37,9 @@ fun Canvas.drawSTBNode(i : Int, scale : Float, paint : Paint) {
     val gap : Float = h / (nodes + 1)
     val size : Float = gap / sizeFactor
     paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.style = Paint.Style.FILL_AND_STROKE
     val yGap : Float = (2 * size) / squares
     val sc1 : Float = scale.divideScale(0, 2)
     val sc2 : Float = scale.divideScale(1, 2)
@@ -50,9 +54,10 @@ fun Canvas.drawSTBNode(i : Int, scale : Float, paint : Paint) {
         scale(1f - 2 * j, 1f)
         for (k in 0..(squares - 1)) {
             val sck : Float = scj.divideScale(k, squares)
+            val r : RectF = RectF(0f, 0f, size * sck, yGap)
             save()
             translate(0f, yGap * k)
-            drawRect(RectF(0f, 0f, size * sck, yGap), paint)
+            drawRect(r, paint)
             restore()
         }
         restore()
