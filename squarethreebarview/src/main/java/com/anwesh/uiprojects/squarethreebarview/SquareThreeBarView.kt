@@ -214,4 +214,13 @@ class SquareThreeBarView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : SquareThreeBarView {
+            val view : SquareThreeBarView = SquareThreeBarView(activity)
+            activity.setContentView(view)
+            return view 
+        }
+    }
 }
