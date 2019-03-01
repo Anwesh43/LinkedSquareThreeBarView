@@ -191,4 +191,26 @@ class SquareThreeBarView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : SquareThreeBarView) {
+
+        private val animator : Animator = Animator(view)
+        private val stb : SquareThreeBall = SquareThreeBall(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(fillColor)
+            stb.draw(canvas, paint)
+            animator.animate {
+                stb.update {i, scl->
+                    animator.start()
+                }
+            }
+        }
+
+        fun handleTap() {
+            stb.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
