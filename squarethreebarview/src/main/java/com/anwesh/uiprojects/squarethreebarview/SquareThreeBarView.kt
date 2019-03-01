@@ -21,6 +21,7 @@ val scDiv : Double = 0.51
 val sizeFactor : Float = 2.8f
 val foreColor : Int = Color.parseColor("#4CAF50")
 val fillColor : Int = Color.parseColor("#212121")
+val delay : Long = 20
 
 fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
@@ -50,7 +51,7 @@ fun Canvas.drawSTBNode(i : Int, scale : Float, paint : Paint) {
         for (k in 0..(squares - 1)) {
             val sck : Float = scj.divideScale(k, squares)
             save()
-            translate(0f, yGap * j)
+            translate(0f, yGap * k)
             drawRect(RectF(0f, 0f, size * sck, yGap), paint)
             restore()
         }
@@ -104,7 +105,7 @@ class SquareThreeBarView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
@@ -220,7 +221,7 @@ class SquareThreeBarView(ctx : Context) : View(ctx) {
         fun create(activity : Activity) : SquareThreeBarView {
             val view : SquareThreeBarView = SquareThreeBarView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
